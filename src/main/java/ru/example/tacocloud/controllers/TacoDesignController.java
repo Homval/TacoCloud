@@ -40,7 +40,7 @@ public class TacoDesignController {
             model.addAttribute(type.toString().toLowerCase(), filterByType(ingredients, type));
         }
         model.addAttribute("design", new Taco());
-
+        log.info("Showing design form");
         return "design";
     }
 
