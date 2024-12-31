@@ -15,9 +15,10 @@ import java.util.Map;
 
 @Repository
 public class JdbcOrderRepository implements OrderRepository {
-    private SimpleJdbcInsert orderInserter;
-    private SimpleJdbcInsert orderTacoInserter;
-    private ObjectMapper objectMapper;
+
+    private final SimpleJdbcInsert orderInserter;
+    private final SimpleJdbcInsert orderTacoInserter;
+    private final ObjectMapper objectMapper;
 
     @Autowired
     public JdbcOrderRepository(JdbcTemplate jdbc) {

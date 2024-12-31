@@ -27,13 +27,13 @@ public class JdbcTacoRepository implements TacoRepository {
     }
 
     @Override
-    public Taco save(Taco taco) {
-        long tacoId = saveTacoInfo(taco);
-        taco.setId(tacoId);
-        for (Ingredient ingredient : taco.getIngredients()) {
+    public Taco save(Taco design) {
+        long tacoId = saveTacoInfo(design);
+        design.setId(tacoId);
+        for (Ingredient ingredient : design.getIngredients()) {
             saveIngredientToTaco(ingredient, tacoId);
         }
-        return taco;
+        return design;
     }
 
     private void saveIngredientToTaco(Ingredient ingredient, long tacoId) {
