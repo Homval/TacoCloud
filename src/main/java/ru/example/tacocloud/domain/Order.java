@@ -1,17 +1,26 @@
 package ru.example.tacocloud.domain;
 
-import jakarta.validation.constraints.Digits;
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.Pattern;
+import javax.persistence.*;
+import javax.validation.constraints.Digits;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Pattern;
 import lombok.Data;
 import org.hibernate.validator.constraints.CreditCardNumber;
 
+import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+@Entity
 @Data
-public class Order {
+@Table(name = "Taco_Order")
+public class Order implements Serializable {
 
+    private static final long serialVersionUID = 1L;
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private Long id;
 
     private Date placedAt;
@@ -41,9 +50,15 @@ public class Order {
     @Digits(integer = 3, fraction = 0, message = "Invalid CVV")
     private String ccCVV;
 
-    private List<Taco> tacos;
+    @ManyToMany(targetEntity = Taco.class)
+    private List<Taco> tacos = new ArrayList<>();
 
-    public void addDesign(Taco taco) {
-        tacos.add(taco);
+    public void addTaco(Taco taco) {
+        this.tacos.add(taco);
+    }
+
+    @PrePersist
+    private void createdAt(){
+        this.placedAt = new Date();
     }
 }

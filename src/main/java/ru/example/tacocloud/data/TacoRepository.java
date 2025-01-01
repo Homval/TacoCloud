@@ -1,8 +1,8 @@
 package ru.example.tacocloud.data;
 
+import org.springframework.data.repository.CrudRepository;
 import ru.example.tacocloud.domain.Taco;
 
-public interface TacoRepository {
+public interface TacoRepository extends CrudRepository<Taco, Long> {
 
-    Taco save(Taco design);
 }
