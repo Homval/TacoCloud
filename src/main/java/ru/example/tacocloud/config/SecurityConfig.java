@@ -18,34 +18,34 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Autowired
     DataSource dataSource;
 
-//    @Override
-//    protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-//        String passwordBuzz = passwordEncoder().encode("buzz-pass");
-//        String passwordFrog = passwordEncoder().encode("frog-pass");
-//        auth.inMemoryAuthentication()
-//                .withUser("buzz")
-//                .password(passwordBuzz)
-//                .authorities("ROLE_USER")
-//                .and()
-//                .withUser("frog")
-//                .password(passwordFrog)
-//                .authorities("ROLE_USER");
-//
-//    }
-
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-        auth.jdbcAuthentication()
-                .dataSource(dataSource)
-                .usersByUsernameQuery(
-                        "select username, password, enabled from Users where username=?"
-                )
-                .authoritiesByUsernameQuery(
-                        "select username, authority from UserAuthorities where username=?"
-                )
-                .passwordEncoder(passwordEncoder());
+        String passwordBuzz = passwordEncoder().encode("buzz-pass");
+        String passwordFrog = passwordEncoder().encode("frog-pass");
+        auth.inMemoryAuthentication()
+                .withUser("buzz")
+                .password(passwordBuzz)
+                .authorities("ROLE_USER")
+                .and()
+                .withUser("frog")
+                .password(passwordFrog)
+                .authorities("ROLE_USER");
 
     }
+
+//    @Override
+//    protected void configure(AuthenticationManagerBuilder auth) throws Exception {
+//        auth.jdbcAuthentication()
+//                .dataSource(dataSource)
+//                .usersByUsernameQuery(
+//                        "select username, password, enabled from Users where username=?"
+//                )
+//                .authoritiesByUsernameQuery(
+//                        "select username, authority from UserAuthorities where username=?"
+//                )
+//                .passwordEncoder(passwordEncoder());
+//
+//    }
 
 
     @Bean

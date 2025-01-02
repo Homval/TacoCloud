@@ -1,5 +1,8 @@
 package ru.example.tacocloud.controllers;
 
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -21,6 +24,8 @@ import java.util.stream.Collectors;
 @Controller
 @RequestMapping("/design")
 @SessionAttributes("order")
+@Tag(name = "Design Taco Controller",
+        description = "Create taco")
 public class DesignTacoController {
 
     private final IngredientRepository ingredientRepo;
@@ -51,12 +56,16 @@ public class DesignTacoController {
     }
 
     @GetMapping
+    @Operation(summary = "Design taco form", description = "Show design form")
+    @SecurityRequirement(name = "sessionId")
     public String showDesignForm() {
         log.info("Showing design form");
         return "design";
     }
 
     @PostMapping
+    @Operation(summary = "Taco design", description = "Process taco design and add taco in order")
+    @SecurityRequirement(name = "sessionId")
     public String processDesign(@Valid Taco taco, Errors errors,
                                 @ModelAttribute Order order) {
         if (errors.hasErrors()) {

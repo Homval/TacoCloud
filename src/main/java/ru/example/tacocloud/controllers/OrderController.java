@@ -2,6 +2,10 @@ package ru.example.tacocloud.controllers;
 
 
 import javax.validation.Valid;
+
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -18,6 +22,8 @@ import ru.example.tacocloud.domain.Order;
 @Controller
 @RequestMapping("/orders")
 @SessionAttributes("order")
+@Tag(name = "Order controller",
+        description = "Order managing")
 public class OrderController {
 
     private final OrderRepository orderRepository;
@@ -28,11 +34,15 @@ public class OrderController {
     }
 
     @GetMapping("/current")
+    @Operation(summary = "Order form", description = "Show order form")
+    @SecurityRequirement(name = "sessionId")
     public String orderForm() {
         return "orderForm";
     }
 
     @PostMapping
+    @Operation(summary = "Create order", description = "Process order and save order in DB")
+    @SecurityRequirement(name = "sessionId")
     public String processOrder(@Valid Order order, Errors errors, SessionStatus status) {
         if (errors.hasErrors()) {
             return "orderForm";
